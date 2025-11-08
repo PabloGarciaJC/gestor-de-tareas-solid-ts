@@ -1,0 +1,22 @@
+services:
+  server_core:
+    build:
+      context: .
+      dockerfile: ./server_core/Dockerfile
+    image: gestor_de_tareas_solid_ts_image
+    pull_policy: never 
+    container_name: gestor_de_tareas_solid_ts_server
+    user: "1000:1000"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../.:/var/www/html
+    working_dir: /var/www/html
+    tty: true
+    stdin_open: true
+    networks:
+      - gestor_de_tareas_solid_ts_network
+
+networks:
+  gestor_de_tareas_solid_ts_network:
+    name: gestor_de_tareas_solid_ts_network
