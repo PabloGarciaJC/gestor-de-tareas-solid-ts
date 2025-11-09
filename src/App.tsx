@@ -1,5 +1,6 @@
 import { SingleResponsibilityPrinciple } from "./SingleResponsibilityPrinciple";
 import { OpenClosedPrinciple } from "./OpenClosedPrinciple";
+import { LiskovSubstitutionPrinciple } from "./LiskovSubstitutionPrinciple";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <div className="srp-grid">
         <SingleResponsibilityPrinciple />
         <OpenClosedPrinciple />
+        <LiskovSubstitutionPrinciple />
       </div>
     </>
   );
