@@ -53,7 +53,7 @@ class ProductManager {
 const productManager = new ProductManager();
 const productService = new ProductService();
 
-export const OpenClosedPrinciple = () => {
+export const OpenClosed = () => {
   const [products, setProducts] = useState<Product[]>(productManager.getAll());
 
   const refresh = () => setProducts([...productManager.getAll()]);

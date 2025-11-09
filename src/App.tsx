@@ -1,6 +1,6 @@
-import { SingleResponsibilityPrinciple } from "./SingleResponsibilityPrinciple";
-import { OpenClosedPrinciple } from "./OpenClosedPrinciple";
-import { LiskovSubstitutionPrinciple } from "./LiskovSubstitutionPrinciple";
+import { SingleResponsibility } from "./SingleResponsibility";
+import { OpenClosed } from "./OpenClosed";
+import { LiskovSubstitution } from "./LiskovSubstitution";
 import { InterfaceSegregationPrinciple } from "./InterfaceSegregation";
 import { Denendenevlnvercion } from "./Denendenevlnvercion";
 
@@ -9,9 +9,9 @@ function App() {
     <>
       <h1 className="solid-title-primary">Principios SOLID</h1>
       <div className="srp-grid">
-        <SingleResponsibilityPrinciple />
-        <OpenClosedPrinciple />
-        <LiskovSubstitutionPrinciple />
+        <SingleResponsibility />
+        <OpenClosed />
+        <LiskovSubstitution />
         <InterfaceSegregationPrinciple />
         <Denendenevlnvercion />
       </div>

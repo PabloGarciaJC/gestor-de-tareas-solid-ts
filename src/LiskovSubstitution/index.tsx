@@ -65,7 +65,7 @@ class VehicleManager {
 const vehicleManager = new VehicleManager();
 const vehicleService = new VehicleService();
 
-export const LiskovSubstitutionPrinciple = () => {
+export const LiskovSubstitution = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>(vehicleManager.getAll());
 
   const refresh = () => setVehicles([...vehicleManager.getAll()]);
