@@ -1,6 +1,7 @@
 import { SingleResponsibilityPrinciple } from "./SingleResponsibilityPrinciple";
 import { OpenClosedPrinciple } from "./OpenClosedPrinciple";
 import { LiskovSubstitutionPrinciple } from "./LiskovSubstitutionPrinciple";
+import { InterfaceSegregationPrinciple } from "./InterfaceSegregation";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <SingleResponsibilityPrinciple />
         <OpenClosedPrinciple />
         <LiskovSubstitutionPrinciple />
+        <InterfaceSegregationPrinciple />
       </div>
     </>
   );
