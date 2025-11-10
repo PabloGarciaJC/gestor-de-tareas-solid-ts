@@ -238,3 +238,72 @@ body {
     border-radius: 16px;
     padding: 10px;
 }
+
+
+/* =========== RESPONSIVE =========== */
+
+/* Tablets (pantallas medianas) */
+@media (max-width: 1024px) {
+  .solid-title-primary {
+    font-size: 48px;
+  }
+
+  .srp-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  .solid-title-primary {
+    font-size: 38px;
+    margin-bottom: 20px;
+  }
+
+  .srp-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .srp-container {
+    width: 100%;
+  }
+
+  .srp-title {
+    font-size: 18px;
+  }
+
+  .srp-description,
+  .srp-explain-list {
+    font-size: 13px;
+  }
+
+  .learning-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 480px) {
+  .solid-title-primary {
+    font-size: 30px;
+  }
+
+  body {
+    padding: 15px;
+  }
+
+  .srp-task-item {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .srp-button,
+  .srp-delete-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
