@@ -1,97 +1,186 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FaCheckCircle, FaTimesCircle, FaFileCode, FaPlusCircle } from "react-icons/fa";
 
-/* ================= Open/Closed Principle (OCP) ================= */
-
-/* ------------------ (1) MODELO ------------------
-   Define un producto.  
-   Responsabilidad única: solo contiene los datos.
--------------------------------------------------- */
-interface Product {
+interface Task {
   id: number;
-  name: string;
-  price: number;
+  title: string;
+  type: string;
 }
 
-/* ------------------ (2) SERVICIO ------------------
-   Obtiene productos desde la API.
-   Responsabilidad única: acceder a la fuente de datos.
--------------------------------------------------- */
-class ProductService {
-  async fetchProducts(): Promise<Product[]> {
-    const response = await fetch(
-      "https://fakestoreapi.com/products?limit=5"
-    );
-    return response.json();
-  }
-}
+const ocpTasks: Task[] = [
+  { id: 1, title: "Agregar un nuevo filtro a ProductManager", type: "Extend" },
+  { id: 2, title: "Modificar ProductManager para cambiar lógica interna", type: "Modify" },
+  { id: 3, title: "Crear nueva clase de descuento sin tocar código existente", type: "Extend" },
+  { id: 4, title: "Cambiar método existente de cálculo de precio en ProductManager", type: "Modify" },
+  { id: 5, title: "Agregar soporte para nuevos tipos de productos creando clase derivada", type: "Extend" },
+];
 
-/* ------------------ (3) LÓGICA ------------------
-   Maneja la lista de productos y filtros.
-   Responsabilidad única: reglas de negocio.
-   Se puede extender sin modificar esta clase.
--------------------------------------------------- */
-class ProductManager {
-  private products: Product[] = [];
-
-  setInitial(products: Product[]) {
-    this.products = products;
-  }
-
-  getAll() {
-    return this.products;
-  }
-
-  // Ejemplo de extensión: filtrar por precio mayor a cierto valor
-  filterExpensive(minPrice: number) {
-    return this.products.filter((p) => p.price > minPrice);
-  }
-}
-
-/* ------------------ (4) UI ------------------
-   Solo presenta información y recibe interacción.
--------------------------------------------------- */
-const productManager = new ProductManager();
-const productService = new ProductService();
+const exampleTask: Task[] = [
+  {
+    id: 999,
+    title: "Ejemplo de OCP en código",
+    type: "Example",
+  },
+];
 
 export const OpenClosed = () => {
-  const [products, setProducts] = useState<Product[]>(productManager.getAll());
+  const [intro, setIntro] = useState(true);
+  const [gameMode, setGameMode] = useState<"example" | null>(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState<React.ReactNode>(
+    "Selecciona la acción correcta según el principio Open/Closed."
+  );
 
-  const refresh = () => setProducts([...productManager.getAll()]);
+  const learningModes = [
+    {
+      key: "example",
+      title: "Ejemplo Visual",
+      description: "Ve un ejemplo de cómo OCP permite extender sin modificar clases existentes.",
+      icon: <FaFileCode size={22} />,
+    },
+    {
+      key: "game",
+      title: "Juego OCP",
+      description: "Aprende OCP asignando tareas correctas según si cumplen o violan OCP.",
+      icon: <FaPlusCircle size={22} />,
+    },
+  ];
 
-  useEffect(() => {
-    productService.fetchProducts().then((data) => {
-      productManager.setInitial(data);
-      refresh();
-    });
-  }, []);
+  const startGame = (mode: "example" | "game") => {
+    setIntro(false);
+    setCorrectCount(0);
+    setIncorrectCount(0);
+    setMessage("Selecciona la acción correcta según el principio Open/Closed.");
+
+    if (mode === "game") {
+      setTasks(ocpTasks);
+      setGameMode(null);
+    } else if (mode === "example") {
+      setTasks(exampleTask);
+      setGameMode("example");
+    }
+  };
+
+  const handleAssign = (task: Task, responsible: string) => {
+    if (
+      (task.type === "Extend" && responsible === "Extender") ||
+      (task.type === "Modify" && responsible === "Modificar")
+    ) {
+      setCorrectCount(correctCount + 1);
+      setMessage(
+        <span>
+          <FaCheckCircle style={{ color: "green", marginRight: "5px" }} />
+          Correcto! "{task.title}" fue asignada correctamente.
+        </span>
+      );
+    } else {
+      setIncorrectCount(incorrectCount + 1);
+      setMessage(
+        <span>
+          <FaTimesCircle style={{ color: "red", marginRight: "5px" }} />
+          Incorrecto! "{task.title}" no corresponde a esta acción.
+        </span>
+      );
+    }
+    setTasks(tasks.filter((t) => t.id !== task.id));
+  };
+
+  const handleBack = () => {
+    setIntro(true);
+    setTasks([]);
+    setCorrectCount(0);
+    setIncorrectCount(0);
+    setMessage("Selecciona la acción correcta según el principio Open/Closed.");
+  };
+
+  if (intro) {
+    return (
+      <div className="srp-container">
+        <h1 className="srp-title">Open/Closed Principle (OCP)</h1>
+        <div className="srp-description">
+          <strong>OCP</strong> significa <strong>Open/Closed Principle</strong> o <strong>Principio Abierto/Cerrado</strong>.
+        </div>
+        <div className="srp-description">
+          La idea clave de OCP es que las clases deben estar <strong>abiertas para extensión</strong> pero <strong>cerradas para modificación</strong>. Esto permite añadir nuevas funcionalidades sin tocar código ya probado.
+        </div>
+
+        <h2 className="srp-subtitle">Maneras de aprender OCP:</h2>
+        <div className="learning-modes">
+          {learningModes.map((mode) => (
+            <div
+              key={mode.key}
+              className="learning-card"
+              onClick={() => startGame(mode.key as "example" | "game")}
+            >
+              <div className="learning-icon">{mode.icon}</div>
+              <div className="learning-content">
+                <h3>{mode.title}</h3>
+                <p>{mode.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="srp-container">
-      <h1 className="srp-title">Open/Closed Principle (OCP)</h1>
+      <h1>{gameMode === "example" ? "Ejemplo Visual OCP" : "Juego OCP"}</h1>
 
-      <p className="srp-description">
-        <strong>Idea clave:</strong> Las clases deben estar abiertas para extensión pero cerradas para modificación.
-      </p>
+      {gameMode !== "example" && tasks.length > 0 && (
+        <>
+          <p>
+            <strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}
+          </p>
+          <p>{message}</p>
+        </>
+      )}
 
-      <ul className="srp-explain-list">
-        <li><strong>Product</strong> define los datos. (Modelo)</li>
-        <li><strong>ProductService</strong> obtiene productos. (Servicio/API)</li>
-        <li><strong>ProductManager</strong> maneja lógica y filtros. (Reglas de negocio)</li>
-        <li><strong>UI</strong> solo presenta la lista de productos. (Interfaz)</li>
-      </ul>
+      <div className="task-list">
+        {tasks.map((task) => (
+          <div key={task.id} className="task-card">
+            <strong>{task.title}</strong>
+            {task.type === "Example" ? (
+              <div className="example-code">
+                <pre>{`// Mala práctica: modificar clase existente
+class ProductManager {
+  calculatePrice(product) { ... }
+}
 
-      <h2 className="srp-subtitle">Productos desde API</h2>
-
-      {!products.length && <p className="srp-loading">Cargando productos...</p>}
-
-      <ul className="srp-task-list">
-        {products.map((p) => (
-          <li key={p.id} className="srp-task-item">
-            <span className="srp-task-text">{p.name}</span>
-            <span>${p.price.toFixed(2)}</span>
-          </li>
+// Buen ejemplo: extender clase sin modificar
+class DiscountManager extends ProductManager {
+  applyDiscount(product) { ... }
+}`}</pre>
+                <p>OCP permite extender funcionalidades sin modificar el código existente.</p>
+              </div>
+            ) : (
+              <div className="button-group">
+                <button className="srp-button" onClick={() => handleAssign(task, "Extender")}>
+                  <FaPlusCircle style={{ marginRight: "5px" }} /> Extender
+                </button>
+                <button className="srp-button" onClick={() => handleAssign(task, "Modificar")}>
+                  <FaFileCode style={{ marginRight: "5px" }} /> Modificar
+                </button>
+              </div>
+            )}
+          </div>
         ))}
-      </ul>
+      </div>
+
+      {tasks.length === 0 && gameMode !== "example" && (
+        <div className="end-screen">
+          <h3>¡Juego terminado!</h3>
+          <p>Total correctas: {correctCount}</p>
+          <p>Total incorrectas: {incorrectCount}</p>
+        </div>
+      )}
+
+      <button className="srp-button back-button" onClick={handleBack}>
+        Atrás
+      </button>
     </div>
   );
 };
