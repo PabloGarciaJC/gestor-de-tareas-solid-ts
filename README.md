@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# SOLID Playground (React + Vite + TS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto está orientado a comprender y aplicar los **principios SOLID**, una guía de buenas prácticas para escribir código más limpio, mantenible y escalable. Cada tarjeta de la aplicación representa uno de los principios
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Demo del Proyecto
 
-## React Compiler
+[https://roadmap-vite-react.com/](https://roadmap-vite-react.pablogarciajc.com/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| ![Imagen 1](https://pablogarciajc.com/wp-content/uploads/2025/10/roadmap-vite-react-1.webp) | ![Imagen 2](https://pablogarciajc.com/wp-content/uploads/2025/10/roadmap-vite-react-2.webp) |
+|-----------|-----------|
 
-## Expanding the ESLint configuration
+## Áreas de Estudio
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Este proyecto es tu primer acercamiento práctico a **React** usando **Vite**, diseñado para aprender conceptos esenciales mientras construyes un proyecto funcional:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**S — Single Responsibility Principle (SRP)**
+Cada clase o módulo debe tener **una única responsabilidad**.  
+Es decir, debe existir por **un solo motivo para cambiar**.  
+En el proyecto se muestra cómo separar modelo, servicio, lógica y UI.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**O — Open/Closed Principle (OCP)**
+Las clases deben estar **abiertas para extensión** pero **cerradas para modificación**.  
+El código se puede extender con nuevas funcionalidades **sin cambiar lo ya existente**.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**L — Liskov Substitution Principle (LSP)**
+Las clases derivadas deben poder **sustituir** a sus clases base **sin alterar el comportamiento del sistema**.  
+Si una subclase rompe el funcionamiento esperado, no cumple LSP.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**I — Interface Segregation Principle (ISP)**
+No se deben forzar clases a implementar **métodos que no usan**.  
+Es mejor crear **interfaces pequeñas y específicas**, no una grande y general.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**D — Dependency Inversion Principle (DIP)**
+Las clases de alto nivel no deben depender de implementaciones concretas,  
+sino de **abstracciones (interfaces)**.  
+Esto permite intercambiar comportamientos sin cambiar el código principal.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Instalación
+
+### Requisitos Previos
+
+- Tener **Docker** y **Docker Compose** instalados.
+- **Make**: Utilizado para automatizar procesos y gestionar contenedores de manera más eficiente.
+
+### Pasos de Instalación
+
+1. Clona el repositorio desde GitHub.
+2. Dentro del repositorio, encontrarás un archivo **Makefile** que contiene los comandos necesarios para iniciar y gestionar tu aplicación.
+3. Usa los siguientes comandos de **Make** para interactuar con la aplicación:
+
+    - **`make init-app`**: Inicializa la aplicación, copiando `.env`, creando symlinks, levantando contenedores, instalando dependencias y levantando el servidor de desarrollo.  
+    - **`make up`**: Levanta los contenedores asociados a la aplicación en segundo plano.  
+    - **`make down`**: Detiene los contenedores y apaga la aplicación.  
+    - **`make shell`**: Ingresa al contenedor para interactuar directamente con el sistema.  
+    - **`make npm-install`**: Instala todas las dependencias definidas en `package.json`.  
+    - **`make npm-host`**: Levanta el servidor de desarrollo (`npm run dev`) accesible desde tu máquina local.  
+    - **`make build-prod`**: Genera la versión de producción de la aplicación (`npm run build`) y mueve los archivos compilados a la raíz del proyecto.  
+
+4. Además de estos comandos, dentro del archivo **Makefile** puedes encontrar otros comandos que te permitirán interactuar de manera más específica con los contenedores y los diferentes servicios que conforman la aplicación.
+
+5. Accede a los siguientes URL:
+   - **Aplicación Web**: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## Contáctame / Sígueme en mis redes sociales
+
+| Red Social   | Descripción                                              | Enlace                   |
+|--------------|----------------------------------------------------------|--------------------------|
+| **Facebook** | Conéctate y mantente al tanto de mis actualizaciones.    | [Presiona aquí](https://www.facebook.com/PabloGarciaJC) |
+| **YouTube**  | Fundamentos de la programación, tutoriales y noticias.   | [Presiona aquí](https://www.youtube.com/@pablogarciajc)     |
+| **Página Web** | Más información sobre mis proyectos y servicios.        | [Presiona aquí](https://pablogarciajc.com/)              |
+| **LinkedIn** | Sigue mi carrera profesional y establece conexiones.     | [Presiona aquí](https://www.linkedin.com/in/pablogarciajc) |
+| **Instagram**| Fotos, proyectos y contenido relacionado.                 | [Presiona aquí](https://www.instagram.com/pablogarciajc) |
+| **Twitter**  | Proyectos, pensamientos y actualizaciones.                | [Presiona aquí](https://x.com/PabloGarciaJC?t=lct1gxvE8DkqAr8dgxrHIw&s=09)   |
+
+---
+> _"El buen manejo de tus finanzas hoy construye la seguridad del mañana."_
