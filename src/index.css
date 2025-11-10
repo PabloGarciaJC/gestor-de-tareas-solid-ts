@@ -17,13 +17,12 @@ body {
 .srp-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  gap: 15px;
   justify-items: center;
 }
 
 .srp-container {
   background: #2c2c2c;
-  width: 100%;
   padding: 10px;
   border-radius: 16px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -120,8 +119,6 @@ body {
 .srp-delete-btn:hover {
   background: #c2185b;
 }
-
-
 
 .task-list { 
   display: flex; 
@@ -229,3 +226,13 @@ body {
 }
 
 
+.srp-description-title {
+    font-size: 20px;
+    margin-bottom: 50px;
+    color: #ddd;
+    border: 1px solid #444;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    background: #2c2c2c;
+    border-radius: 16px;
+    padding: 10px;
+}
