@@ -123,9 +123,6 @@ body {
 
 
 
-.srp-button {cursor: pointer;}
-
-
 .task-list { 
   display: flex; 
   gap: 12px; 
@@ -166,3 +163,69 @@ body {
 .back-button { 
   margin-top: 20px; 
 }
+
+
+.learning-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.learning-content p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+}
+
+.learning-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00bcd4, #006c8c);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 250px;
+}
+
+.learning-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.learning-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.learning-content h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+.srp-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #00bcd4;
+  color: #1e1e1e;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.srp-button:hover {
+  background: #0097a7;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+

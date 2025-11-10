@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaPaintBrush, FaBroom, FaUtensils, FaDatabase, FaEnvelope, FaFilePdf, FaCheckCircle, FaMoneyBill } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -24,31 +25,48 @@ const technicalTasks: Task[] = [
 
 export const SingleResponsibility = () => {
   const [intro, setIntro] = useState(true);
-  const [gameMode, setGameMode] = useState<"common" | "technical" | null>(null);
+  const [gameMode, setGameMode] = useState<"common" | "technical" | "example" | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [score, setScore] = useState(0);
-  const [message, setMessage] = useState(
-    "Selecciona el responsable correcto para cada tarea según su tipo."
-  );
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [message, setMessage] = useState("Selecciona el responsable correcto para cada tarea según su tipo.");
 
-  const startGame = (mode: "common" | "technical") => {
-    setGameMode(mode);
+  const learningModes = [
+    { key: "common", title: "Actividades Cotidianas", description: "Aprende SRP relacionando tareas comunes del día a día con sus responsables.", icon: <FaBroom size={22} /> },
+    { key: "technical", title: "Técnico", description: "Aprende SRP con ejemplos de programación y servicios técnicos.", icon: <FaDatabase size={22} /> },
+    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo SRP separa responsabilidades en un módulo de código.", icon: <FaCheckCircle size={22} /> }
+  ];
+
+  const startGame = (mode: "common" | "technical" | "example") => {
     setIntro(false);
-    setTasks(mode === "common" ? commonTasks : technicalTasks);
-    setScore(0);
+    setCorrectCount(0);
+    setIncorrectCount(0);
     setMessage(
       mode === "common"
         ? "Selecciona el responsable correcto para cada tarea según su tipo."
-        : "Asigna cada tarea a la clase/servicio correcto según su responsabilidad."
+        : mode === "technical"
+          ? "Asigna cada tarea a la clase/servicio correcto según su responsabilidad."
+          : ""
     );
+
+    if (mode === "common") {
+      setTasks(commonTasks);
+      setGameMode("common");
+    } else if (mode === "technical") {
+      setTasks(technicalTasks);
+      setGameMode("technical");
+    } else if (mode === "example") {
+      setTasks([{ id: 999, title: "Ejemplo de SRP en código", type: "Example" }]);
+      setGameMode("example");
+    }
   };
 
   const handleAssign = (task: Task, responsible: string) => {
     if (task.type === responsible) {
-      setScore(score + 1);
+      setCorrectCount(correctCount + 1);
       setMessage(`✅ Correcto! "${task.title}" fue asignada correctamente.`);
     } else {
-      setScore(score - 1);
+      setIncorrectCount(incorrectCount + 1);
       setMessage(`❌ Incorrecto! "${task.title}" no corresponde a este responsable.`);
     }
     setTasks(tasks.filter((t) => t.id !== task.id));
@@ -58,97 +76,112 @@ export const SingleResponsibility = () => {
     setIntro(true);
     setGameMode(null);
     setTasks([]);
-    setScore(0);
+    setCorrectCount(0);
+    setIncorrectCount(0);
     setMessage("Selecciona el responsable correcto para cada tarea según su tipo.");
   };
 
   if (intro) {
     return (
       <div className="srp-container">
-
         <h1 className="srp-title">Single Responsibility Principle (SRP)</h1>
-
         <div className="srp-description">
-          <strong>SRP</strong> significa <strong>Single Responsibility Principle</strong>, o
-          <strong> Principio de Responsabilidad Única</strong>.
+          <strong>SRP</strong> significa <strong>Single Responsibility Principle</strong> o <strong>Principio de Responsabilidad Única</strong>.
         </div>
-
         <div className="srp-description">
-          Este principio forma parte de los <strong>Principios SOLID</strong> de la programación orientada a objetos.
-          Establece que <strong>cada clase, módulo o función debe encargarse de una sola responsabilidad</strong>.
-          Si un componente hace más de una cosa, se vuelve difícil de mantener, probar y modificar sin romper algo.
+          Este principio es parte de <strong>SOLID</strong>. Cada clase, módulo o función debe encargarse de una sola responsabilidad.
+          Si un componente hace más de una cosa, se vuelve difícil de mantener y modificar.
         </div>
-
-        <div className="srp-description">
-          Para ayudarte a entender este concepto de forma sencilla, aquí tienes un <strong>juego interactivo</strong>.
-          Tu objetivo es <strong>asignar cada tarea a su responsable correcto</strong>.
+        <h2 className="srp-subtitle">Maneras de aprender SRP:</h2>
+        <div className="learning-modes">
+          {learningModes.map((mode) => (
+            <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
+              <div className="learning-icon">{mode.icon}</div>
+              <div className="learning-content">
+                <h3>{mode.title}</h3>
+                <p>{mode.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
-
-        <h2 className="srp-subtitle">Selecciona cómo quieres aprender:</h2>
-
-        <button className="srp-button" onClick={() => startGame("common")}>
-          Actividades Cotidianas
-        </button>
-
-        <button className="srp-button" onClick={() => startGame("technical")}>
-          Técnico
-        </button>
       </div>
     );
   }
 
-
   const responsibleLabels =
     gameMode === "common"
       ? { Paint: "Pintor", Clean: "Personal de Limpieza", Cook: "Chef" }
-      : {
-        UserService: "UserService",
-        EmailService: "EmailService",
-        ReportService: "ReportService",
-        ValidationService: "ValidationService",
-        PaymentService: "PaymentService",
-      };
+      : gameMode === "technical"
+        ? { UserService: "UserService", EmailService: "EmailService", ReportService: "ReportService", ValidationService: "ValidationService", PaymentService: "PaymentService" }
+        : {};
+
+  const responsibleIcons =
+    gameMode === "common"
+      ? { Paint: <FaPaintBrush />, Clean: <FaBroom />, Cook: <FaUtensils /> }
+      : gameMode === "technical"
+        ? { UserService: <FaDatabase />, EmailService: <FaEnvelope />, ReportService: <FaFilePdf />, ValidationService: <FaCheckCircle />, PaymentService: <FaMoneyBill /> }
+        : {};
 
   return (
     <div className="srp-container">
-      <h1>Juego SRP - {gameMode === "common" ? "Usuario Común" : "Técnico"}</h1>
-      <p><strong>Puntuación:</strong> {score}</p>
-      <p>{message}</p>
+      <h1>Juego SRP - {gameMode === "common" ? "Usuario Común" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}</h1>
 
-      <h2>Tareas disponibles:</h2>
+      {/* Mostrar puntuación solo si no es ejemplo */}
+      {gameMode !== "example" && (
+        <>
+          <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
+          <p>{message}</p>
+        </>
+      )}
+
       <div className="task-list">
         {tasks.map((task) => (
           <div key={task.id} className="task-card">
             <strong>{task.title}</strong>
-            <div className="button-group">
-              {gameMode === "common" ? (
-                <>
-                  <button className="srp-button" onClick={() => handleAssign(task, "Paint")}>Pintor</button>
-                  <button className="srp-button" onClick={() => handleAssign(task, "Clean")}>Personal de Limpieza</button>
-                  <button className="srp-button" onClick={() => handleAssign(task, "Cook")}>Chef</button>
-                </>
-              ) : (
-                Object.keys(responsibleLabels).map((key) => (
+
+            {task.type === "Example" ? (
+              <div className="example-code">
+                <pre>
+                  {`// Mala práctica: clase con múltiples responsabilidades
+                  class User {
+                    saveToDB() { ... }
+                    sendEmail() { ... }
+                  }
+
+                  // Buen ejemplo: cada clase tiene una sola responsabilidad
+                  class UserService {
+                    saveToDB() { ... }
+                  }
+
+                  class EmailService {
+                    sendEmail() { ... }
+                  }`}
+                </pre>
+                <p>Cada clase cumple una sola responsabilidad, facilitando mantenimiento y pruebas.</p>
+              </div>
+            ) : (
+              <div className="button-group">
+                {Object.keys(responsibleLabels).map((key) => (
                   <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
+                    <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
                     {responsibleLabels[key as keyof typeof responsibleLabels]}
                   </button>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      {tasks.length === 0 && (
+      {tasks.length === 0 && gameMode !== "example" && (
         <div className="end-screen">
           <h3>¡Juego terminado!</h3>
-          <p>Puntuación final: {score}</p>
+          <p>Total correctas: {correctCount}</p>
+          <p>Total incorrectas: {incorrectCount}</p>
         </div>
       )}
 
-      <button className="srp-button back-button" onClick={handleBack}>
-        Atrás
-      </button>
+      <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
     </div>
   );
 };
