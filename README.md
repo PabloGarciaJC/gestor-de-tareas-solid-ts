@@ -6,9 +6,9 @@ Este proyecto está orientado a comprender y aplicar los **principios SOLID**, u
 
 ## Demo del Proyecto
 
-[https://roadmap-vite-react.com/](https://roadmap-vite-react.pablogarciajc.com/)
+[https://solid-playground-vite-react-ts.com/](https://solid-playground-vite-react-ts.pablogarciajc.com/)
 
-| ![Imagen 1](https://pablogarciajc.com/wp-content/uploads/2025/10/roadmap-vite-react-1.webp) | ![Imagen 2](https://pablogarciajc.com/wp-content/uploads/2025/10/roadmap-vite-react-2.webp) |
+| ![Imagen 1](https://pablogarciajc.com/wp-content/uploads/2025/11/solid-playground-vite-react-ts-1.webp) | ![Imagen 2](https://pablogarciajc.com/wp-content/uploads/2025/11/solid-playground-vite-react-ts-2.webp) |
 |-----------|-----------|
 
 ## Áreas de Estudio
