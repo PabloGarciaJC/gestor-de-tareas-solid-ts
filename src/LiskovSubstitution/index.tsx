@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaCar, FaBicycle, FaBus, FaMotorcycle, FaCheckCircle, FaTimesCircle, FaTruck, FaSubway } from "react-icons/fa";
+import { FaBroom, FaDatabase, FaFileCode, FaCheckCircle, FaTimesCircle} from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -38,9 +38,9 @@ export const LiskovSubstitution = () => {
   const [message, setMessage] = useState<React.ReactNode>("Selecciona si la sustitución es correcta o no según LSP.");
 
   const learningModes = [
-    { key: "common", title: "Actividades Cotidianas", description: "Aprende LSP relacionando vehículos comunes y cuándo se pueden sustituir sin problemas.", icon: <FaCar size={22} /> },
-    { key: "technical", title: "Técnico", description: "Aprende LSP con ejemplos de programación y clases derivadas.", icon: <FaTruck size={22} /> },
-    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo LSP permite sustituir subclases sin romper la lógica.", icon: <FaSubway size={22} /> },
+    { key: "common", title: "Actividades Cotidianas", description: "Aprende LSP relacionando vehículos comunes y cuándo se pueden sustituir sin problemas.", icon: <FaBroom size={22} /> },
+    { key: "technical", title: "Técnico", description: "Aprende LSP con ejemplos de programación y clases derivadas.", icon: <FaDatabase size={22} />},
+    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo LSP permite sustituir subclases sin romper la lógica.", icon: <FaFileCode size={22} /> },
   ];
 
   const startGame = (mode: "common" | "technical" | "example") => {
@@ -134,61 +134,61 @@ export const LiskovSubstitution = () => {
   /* ===================== JUEGO ===================== */
   return (
     <div className="srp-container">
-      <h1>
-        Juego LSP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
-      </h1>
+      <div className="cntn">
+        <h1>
+          Juego LSP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
+        </h1>
+        {gameMode !== "example" && (
+          <>
+            <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
+            <p>{message}</p>
+          </>
+        )}
+        <div className="task-list">
+          {tasks.map((task) => (
+            <div key={task.id} className="task-card">
+              <strong>{task.title}</strong>
+              {task.type === "Example" ? (
+                <div className="example-code">
+                  <pre>
+                  {`// Mala práctica: subclase que rompe comportamiento de base
+                  class Bird {
+                    fly() { ... }
+                  }
 
-      {gameMode !== "example" && (
-        <>
-          <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
-          <p>{message}</p>
-        </>
-      )}
+                  class Penguin extends Bird {
+                    fly() { throw Error("No puede volar"); }
+                  }
 
-      <div className="task-list">
-        {tasks.map((task) => (
-          <div key={task.id} className="task-card">
-            <strong>{task.title}</strong>
-            {task.type === "Example" ? (
-              <div className="example-code">
-                <pre>{`// Mala práctica: subclase que rompe comportamiento de base
-class Bird {
-  fly() { ... }
-}
-
-class Penguin extends Bird {
-  fly() { throw Error("No puede volar"); }
-}
-
-// Buen ejemplo: subclase respeta comportamiento
-class Sparrow extends Bird {
-  fly() { ... }
-}`}</pre>
-                <p>Cualquier subclase debe poder sustituir a la clase base sin romper la lógica del programa.</p>
-              </div>
-            ) : (
-              <div className="button-group">
-                {Object.keys(responsibleLabels).map((key) => (
-                  <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
-                    <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
-                    {responsibleLabels[key as keyof typeof responsibleLabels]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {tasks.length === 0 && gameMode !== "example" && (
-        <div className="end-screen">
-          <h3>¡Juego terminado!</h3>
-          <p>Total correctas: {correctCount}</p>
-          <p>Total incorrectas: {incorrectCount}</p>
+                  // Buen ejemplo: subclase respeta comportamiento
+                  class Sparrow extends Bird {
+                    fly() { ... }
+                  }`}
+                  </pre>
+                  <p>Cualquier subclase debe poder sustituir a la clase base sin romper la lógica del programa.</p>
+                </div>
+              ) : (
+                <div className="button-group">
+                  {Object.keys(responsibleLabels).map((key) => (
+                    <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
+                      <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
+                      {responsibleLabels[key as keyof typeof responsibleLabels]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
-
-      <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+        {tasks.length === 0 && gameMode !== "example" && (
+          <div className="end-screen">
+            <h3>¡Juego terminado!</h3>
+            <p>Total correctas: {correctCount}</p>
+            <p>Total incorrectas: {incorrectCount}</p>
+          </div>
+        )}
+        <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+      </div>
     </div>
   );
 };

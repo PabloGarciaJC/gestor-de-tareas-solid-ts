@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { FaUserEdit, FaUserMinus, FaCheckCircle, FaTimesCircle, FaUsers, FaUserCog, FaClipboardCheck } from "react-icons/fa";
+import { useState } from "react";
+import { FaUserEdit, FaUserMinus, FaCheckCircle, FaTimesCircle, FaBroom, FaDatabase, FaFileCode } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -38,9 +38,9 @@ export const InterfaceSegregation = () => {
   const [message, setMessage] = useState<React.ReactNode>("Selecciona la acción correcta según ISP.");
 
   const learningModes = [
-    { key: "common", title: "Actividades Cotidianas", description: "Aprende ISP decidiendo qué usuarios pueden editar o eliminar.", icon: <FaUsers size={22} /> },
-    { key: "technical", title: "Técnico", description: "Aprende ISP con ejemplos de clases que implementan solo las interfaces necesarias.", icon: <FaUserCog size={22} /> },
-    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo ISP permite que cada clase implemente solo lo que necesita.", icon: <FaClipboardCheck size={22} /> },
+    { key: "common", title: "Actividades Cotidianas", description: "Aprende ISP decidiendo qué usuarios pueden editar o eliminar.", icon: <FaBroom size={22} /> },
+    { key: "technical", title: "Técnico", description: "Aprende ISP con ejemplos de clases que implementan solo las interfaces necesarias.", icon: <FaDatabase size={22} /> },
+    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo ISP permite que cada clase implemente solo lo que necesita.", icon: <FaFileCode size={22} />},
   ];
 
   const startGame = (mode: "common" | "technical" | "example") => {
@@ -134,59 +134,59 @@ export const InterfaceSegregation = () => {
   /* ===================== JUEGO ===================== */
   return (
     <div className="srp-container">
-      <h1>
-        Juego ISP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
-      </h1>
+      <div className="cntn">
+        <h1>
+          Juego ISP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
+        </h1>
+        {gameMode !== "example" && (
+          <>
+            <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
+            <p>{message}</p>
+          </>
+        )}
+        <div className="task-list">
+          {tasks.map((task) => (
+            <div key={task.id} className="task-card">
+              <strong>{task.title}</strong>
+              {task.type === "Example" ? (
+                <div className="example-code">
+                  <pre>
+                  {`// Mala práctica: clase con métodos que no usa
+                  class User {
+                    editUser() { ... }
+                    deleteUser() { ... }
+                  }
 
-      {gameMode !== "example" && (
-        <>
-          <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
-          <p>{message}</p>
-        </>
-      )}
+                  class Viewer implements CanEdit, CanDelete { ... } // incorrecto
 
-      <div className="task-list">
-        {tasks.map((task) => (
-          <div key={task.id} className="task-card">
-            <strong>{task.title}</strong>
-            {task.type === "Example" ? (
-              <div className="example-code">
-                <pre>{`// Mala práctica: clase con métodos que no usa
-class User {
-  editUser() { ... }
-  deleteUser() { ... }
-}
-
-class Viewer implements CanEdit, CanDelete { ... } // incorrecto
-
-// Buen ejemplo: interfaces separadas
-class Editor implements CanEdit { ... }
-class Admin implements CanDelete { ... }`}</pre>
-                <p>Cada clase implementa solo las interfaces que necesita, cumpliendo ISP.</p>
-              </div>
-            ) : (
-              <div className="button-group">
-                {Object.keys(responsibleLabels).map((key) => (
-                  <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
-                    <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
-                    {responsibleLabels[key as keyof typeof responsibleLabels]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {tasks.length === 0 && gameMode !== "example" && (
-        <div className="end-screen">
-          <h3>¡Juego terminado!</h3>
-          <p>Total correctas: {correctCount}</p>
-          <p>Total incorrectas: {incorrectCount}</p>
+                  // Buen ejemplo: interfaces separadas
+                  class Editor implements CanEdit { ... }
+                  class Admin implements CanDelete { ... }`}
+                  </pre>
+                  <p>Cada clase implementa solo las interfaces que necesita, cumpliendo ISP.</p>
+                </div>
+              ) : (
+                <div className="button-group">
+                  {Object.keys(responsibleLabels).map((key) => (
+                    <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
+                      <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
+                      {responsibleLabels[key as keyof typeof responsibleLabels]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
-
-      <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+        {tasks.length === 0 && gameMode !== "example" && (
+          <div className="end-screen">
+            <h3>¡Juego terminado!</h3>
+            <p>Total correctas: {correctCount}</p>
+            <p>Total incorrectas: {incorrectCount}</p>
+          </div>
+        )}
+        <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+      </div>
     </div>
   );
 };

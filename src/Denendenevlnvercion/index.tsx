@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEnvelope, FaSms, FaCheckCircle, FaTimesCircle, FaBolt, FaBullseye, FaCode } from "react-icons/fa";
+import { FaEnvelope, FaSms, FaCheckCircle, FaTimesCircle, FaBullseye, FaBroom, FaDatabase, FaFileCode } from "react-icons/fa";
 
 /* ===================== TAREAS ===================== */
 interface Task {
@@ -38,9 +38,9 @@ export const Denendenevlnvercion = () => {
   const [message, setMessage] = useState<React.ReactNode>("Selecciona la acción correcta según DIP.");
 
   const learningModes = [
-    { key: "common", title: "Actividades Cotidianas", description: "Aprende DIP asignando el canal correcto de notificación.", icon: <FaBolt size={22} /> },
-    { key: "technical", title: "Técnico", description: "Aprende DIP identificando cuando las clases dependen de abstracciones o implementaciones concretas.", icon: <FaCode size={22} /> },
-    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo una clase de alto nivel depende de la abstracción y no de la implementación concreta.", icon: <FaBullseye size={22} /> },
+    { key: "common", title: "Actividades Cotidianas", description: "Aprende DIP asignando el canal correcto de notificación.", icon: <FaBroom size={22} /> },
+    { key: "technical", title: "Técnico", description: "Aprende DIP identificando cuando las clases dependen de abstracciones o implementaciones concretas.", icon: <FaDatabase size={22} /> },
+    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo una clase de alto nivel depende de la abstracción y no de la implementación concreta.", icon: <FaFileCode size={22} /> },
   ];
 
   const startGame = (mode: "common" | "technical" | "example") => {
@@ -140,59 +140,59 @@ export const Denendenevlnvercion = () => {
   /* ===================== JUEGO ===================== */
   return (
     <div className="srp-container">
-      <h1>
-        Juego DIP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
-      </h1>
+      <div className="cntn">
+        <h1>
+          Juego DIP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
+        </h1>
+        {gameMode !== "example" && (
+          <>
+            <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
+            <p>{message}</p>
+          </>
+        )}
+        <div className="task-list">
+          {tasks.map((task) => (
+            <div key={task.id} className="task-card">
+              <strong>{task.title}</strong>
+              {task.type === "Example" ? (
+                <div className="example-code">
+                  <pre>
+                    {`// Mala práctica: alto nivel depende de clase concreta
+              class NotificationManager {
+                private emailSender: EmailSender;
+                constructor() { ... }
+              }
 
-      {gameMode !== "example" && (
-        <>
-          <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
-          <p>{message}</p>
-        </>
-      )}
-
-      <div className="task-list">
-        {tasks.map((task) => (
-          <div key={task.id} className="task-card">
-            <strong>{task.title}</strong>
-            {task.type === "Example" ? (
-              <div className="example-code">
-                <pre>{`// Mala práctica: alto nivel depende de clase concreta
-class NotificationManager {
-  private emailSender: EmailSender;
-  constructor() { ... }
-}
-
-// Buen ejemplo: alto nivel depende de la abstracción
-interface MessageSender { send(msg: string): void; }
-class NotificationManager {
-  constructor(private sender: MessageSender) {}
-}`}</pre>
-                <p>La clase de alto nivel depende de la abstracción, cumpliendo DIP.</p>
-              </div>
-            ) : (
-              <div className="button-group">
-                {Object.keys(responsibleLabels).map((key) => (
-                  <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
-                    <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
-                    {responsibleLabels[key as keyof typeof responsibleLabels]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {tasks.length === 0 && gameMode !== "example" && (
-        <div className="end-screen">
-          <h3>¡Juego terminado!</h3>
-          <p>Total correctas: {correctCount}</p>
-          <p>Total incorrectas: {incorrectCount}</p>
+              // Buen ejemplo: alto nivel depende de la abstracción
+              interface MessageSender { send(msg: string): void; }
+              class NotificationManager {
+                constructor(private sender: MessageSender) {}
+              }`}
+                  </pre>
+                  <p>La clase de alto nivel depende de la abstracción, cumpliendo DIP.</p>
+                </div>
+              ) : (
+                <div className="button-group">
+                  {Object.keys(responsibleLabels).map((key) => (
+                    <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
+                      <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
+                      {responsibleLabels[key as keyof typeof responsibleLabels]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
-
-      <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+        {tasks.length === 0 && gameMode !== "example" && (
+          <div className="end-screen">
+            <h3>¡Juego terminado!</h3>
+            <p>Total correctas: {correctCount}</p>
+            <p>Total incorrectas: {incorrectCount}</p>
+          </div>
+        )}
+        <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+      </div>
     </div>
   );
 };

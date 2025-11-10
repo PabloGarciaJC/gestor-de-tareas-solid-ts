@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaPaintBrush, FaBroom, FaUtensils, FaDatabase, FaEnvelope, FaFilePdf, FaCheckCircle, FaTimesCircle, FaMoneyBill } from "react-icons/fa";
+import { FaPaintBrush, FaBroom, FaUtensils, FaDatabase, FaFileCode, FaEnvelope, FaFilePdf, FaCheckCircle, FaTimesCircle, FaMoneyBill } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -34,7 +34,7 @@ export const SingleResponsibility = () => {
   const learningModes = [
     { key: "common", title: "Actividades Cotidianas", description: "Aprende SRP relacionando tareas comunes del día a día con sus responsables.", icon: <FaBroom size={22} /> },
     { key: "technical", title: "Técnico", description: "Aprende SRP con ejemplos de programación y servicios técnicos.", icon: <FaDatabase size={22} /> },
-    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo SRP separa responsabilidades en un módulo de código.", icon: <FaCheckCircle size={22} /> }
+    { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo SRP separa responsabilidades en un módulo de código.", icon: <FaFileCode size={22} /> }
   ];
 
   const startGame = (mode: "common" | "technical" | "example") => {
@@ -138,60 +138,60 @@ export const SingleResponsibility = () => {
 
   return (
     <div className="srp-container">
-      <h1>Juego SRP - {gameMode === "common" ? "Usuario Común" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}</h1>
+      <div className="cntn">
+        <h1>Juego SRP - {gameMode === "common" ? "Usuario Común" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}</h1>
+        {gameMode !== "example" && (
+          <>
+            <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
+            <p>{message}</p>
+          </>
+        )}
+        <div className="task-list">
+          {tasks.map((task) => (
+            <div key={task.id} className="task-card">
+              <strong>{task.title}</strong>
+              {task.type === "Example" ? (
+                <div className="example-code">
+                  <pre>
+                    {`// Mala práctica: clase con múltiples responsabilidades
+                  class User {
+                    saveToDB() { ... }
+                    sendEmail() { ... }
+                  }
 
-      {gameMode !== "example" && (
-        <>
-          <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
-          <p>{message}</p>
-        </>
-      )}
+                  // Buen ejemplo: cada clase tiene una sola responsabilidad
+                  class UserService {
+                    saveToDB() { ... }
+                  }
 
-      <div className="task-list">
-        {tasks.map((task) => (
-          <div key={task.id} className="task-card">
-            <strong>{task.title}</strong>
-            {task.type === "Example" ? (
-              <div className="example-code">
-                <pre>{`// Mala práctica: clase con múltiples responsabilidades
-class User {
-  saveToDB() { ... }
-  sendEmail() { ... }
-}
-
-// Buen ejemplo: cada clase tiene una sola responsabilidad
-class UserService {
-  saveToDB() { ... }
-}
-
-class EmailService {
-  sendEmail() { ... }
-}`}</pre>
-                <p>Cada clase cumple una sola responsabilidad, facilitando mantenimiento y pruebas.</p>
-              </div>
-            ) : (
-              <div className="button-group">
-                {Object.keys(responsibleLabels).map((key) => (
-                  <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
-                    <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
-                    {responsibleLabels[key as keyof typeof responsibleLabels]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {tasks.length === 0 && gameMode !== "example" && (
-        <div className="end-screen">
-          <h3>¡Juego terminado!</h3>
-          <p>Total correctas: {correctCount}</p>
-          <p>Total incorrectas: {incorrectCount}</p>
+                  class EmailService {
+                    sendEmail() { ... }
+                  }`}
+                  </pre>
+                  <p>Cada clase cumple una sola responsabilidad, facilitando mantenimiento y pruebas.</p>
+                </div>
+              ) : (
+                <div className="button-group">
+                  {Object.keys(responsibleLabels).map((key) => (
+                    <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
+                      <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
+                      {responsibleLabels[key as keyof typeof responsibleLabels]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
-
-      <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+        {tasks.length === 0 && gameMode !== "example" && (
+          <div className="end-screen">
+            <h3>¡Juego terminado!</h3>
+            <p>Total correctas: {correctCount}</p>
+            <p>Total incorrectas: {incorrectCount}</p>
+          </div>
+        )}
+        <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaCheckCircle, FaTimesCircle, FaFileCode, FaPlusCircle, FaDatabase } from "react-icons/fa";
+import { FaCheckCircle, FaBroom, FaTimesCircle, FaFileCode, FaPlusCircle, FaDatabase } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -38,7 +38,7 @@ export const OpenClosed = () => {
   const [message, setMessage] = useState<React.ReactNode>("Selecciona la acción correcta según el principio Open/Closed.");
 
   const learningModes = [
-    { key: "common", title: "Actividades Cotidianas", description: "Aprende OCP relacionando acciones cotidianas con extensión sin modificar.", icon: <FaPlusCircle size={22} /> },
+    { key: "common", title: "Actividades Cotidianas", description: "Aprende OCP relacionando acciones cotidianas con extensión sin modificar.", icon: <FaBroom size={22} />  },
     { key: "technical", title: "Técnico", description: "Aprende OCP con ejemplos de programación y servicios técnicos.", icon: <FaDatabase size={22} /> },
     { key: "example", title: "Ejemplo Visual", description: "Ve un ejemplo de cómo OCP permite extender sin modificar clases existentes.", icon: <FaFileCode size={22} /> },
   ];
@@ -137,57 +137,57 @@ export const OpenClosed = () => {
   /* ===================== JUEGO ===================== */
   return (
     <div className="srp-container">
-      <h1>
-        Juego OCP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
-      </h1>
+      <div className="cntn">
+        <h1>
+          Juego OCP - {gameMode === "common" ? "Actividades Cotidianas" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}
+        </h1>
+        {gameMode !== "example" && (
+          <>
+            <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
+            <p>{message}</p>
+          </>
+        )}
+        <div className="task-list">
+          {tasks.map((task) => (
+            <div key={task.id} className="task-card">
+              <strong>{task.title}</strong>
+              {task.type === "Example" ? (
+                <div className="example-code">
+                  <pre>
+                    {`// Mala práctica: modificar clase existente
+                class ProductManager {
+                  calculatePrice(product) { ... }
+                }
 
-      {gameMode !== "example" && (
-        <>
-          <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
-          <p>{message}</p>
-        </>
-      )}
-
-      <div className="task-list">
-        {tasks.map((task) => (
-          <div key={task.id} className="task-card">
-            <strong>{task.title}</strong>
-            {task.type === "Example" ? (
-              <div className="example-code">
-                <pre>{`// Mala práctica: modificar clase existente
-class ProductManager {
-  calculatePrice(product) { ... }
-}
-
-// Buen ejemplo: extender clase sin modificar
-class DiscountManager extends ProductManager {
-  applyDiscount(product) { ... }
-}`}</pre>
-                <p>OCP permite extender funcionalidades sin modificar el código existente.</p>
-              </div>
-            ) : (
-              <div className="button-group">
-                {Object.keys(responsibleLabels).map((key) => (
-                  <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
-                    <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
-                    {responsibleLabels[key as keyof typeof responsibleLabels]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {tasks.length === 0 && gameMode !== "example" && (
-        <div className="end-screen">
-          <h3>¡Juego terminado!</h3>
-          <p>Total correctas: {correctCount}</p>
-          <p>Total incorrectas: {incorrectCount}</p>
+                // Buen ejemplo: extender clase sin modificar
+                class DiscountManager extends ProductManager {
+                  applyDiscount(product) { ... }
+                }`}
+                  </pre>
+                  <p>OCP permite extender funcionalidades sin modificar el código existente.</p>
+                </div>
+              ) : (
+                <div className="button-group">
+                  {Object.keys(responsibleLabels).map((key) => (
+                    <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
+                      <span className="button-icon">{responsibleIcons[key as keyof typeof responsibleIcons]}</span>
+                      {responsibleLabels[key as keyof typeof responsibleLabels]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
-
-      <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+        {tasks.length === 0 && gameMode !== "example" && (
+          <div className="end-screen">
+            <h3>¡Juego terminado!</h3>
+            <p>Total correctas: {correctCount}</p>
+            <p>Total incorrectas: {incorrectCount}</p>
+          </div>
+        )}
+        <button className="srp-button back-button" onClick={handleBack}>Atrás</button>
+      </div>
     </div>
   );
 };
