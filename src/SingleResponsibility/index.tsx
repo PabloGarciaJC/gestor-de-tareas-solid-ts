@@ -94,26 +94,30 @@ export const SingleResponsibility = () => {
   if (intro) {
     return (
       <div className="srp-container">
-        <h1 className="srp-title">Single Responsibility Principle (SRP)</h1>
-        <div className="srp-description">
-          <strong>SRP</strong> significa <strong>Single Responsibility Principle</strong> o <strong>Principio de Responsabilidad Única</strong>.
-        </div>
-        <div className="srp-description">
-          Este principio es parte de <strong>SOLID</strong>. Cada clase, módulo o función debe encargarse de una sola responsabilidad.
-          Si un componente hace más de una cosa, se vuelve difícil de mantener y modificar.
-        </div>
-        <h2 className="srp-subtitle">Maneras de aprender SRP:</h2>
-        <div className="learning-modes">
-          {learningModes.map((mode) => (
-            <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
-              <div className="learning-icon">{mode.icon}</div>
-              <div className="learning-content">
-                <h3>{mode.title}</h3>
-                <p>{mode.description}</p>
+        <div className="cntn">
+          <h1 className="srp-title">Single Responsibility Principle (SRP)</h1>
+          <div className="srp-description">
+            <strong>SRP</strong> significa <strong>Single Responsibility Principle</strong> o <strong>Principio de Responsabilidad Única</strong>.
+          </div>
+          <div className="srp-description">
+            Este principio es parte de <strong>SOLID</strong>. Cada clase, módulo o función debe encargarse de una sola responsabilidad.
+            Si un componente hace más de una cosa, se vuelve difícil de mantener y modificar.
+          </div>
+          <h2 className="srp-subtitle">Maneras de aprender SRP:</h2>
+          <div className="learning-modes">
+            {learningModes.map((mode) => (
+              <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
+                <div className="learning-icon">{mode.icon}</div>
+                <div className="learning-content">
+                  <h3>{mode.title}</h3>
+                  <p>{mode.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
         </div>
+
       </div>
     );
   }

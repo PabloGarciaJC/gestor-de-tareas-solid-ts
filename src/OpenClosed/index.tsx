@@ -97,25 +97,27 @@ export const OpenClosed = () => {
   if (intro) {
     return (
       <div className="srp-container">
-        <h1 className="srp-title">Open/Closed Principle (OCP)</h1>
-        <div className="srp-description">
-          <strong>OCP</strong> significa <strong>Open/Closed Principle</strong> o <strong>Principio Abierto/Cerrado</strong>.
-        </div>
-        <div className="srp-description">
-          La idea clave de OCP es que las clases deben estar <strong>abiertas para extensión</strong> pero <strong>cerradas para modificación</strong>. Esto permite añadir nuevas funcionalidades sin tocar código ya probado.
-        </div>
+        <div className="cntn">
+          <h1 className="srp-title">Open/Closed Principle (OCP)</h1>
+          <div className="srp-description">
+            <strong>OCP</strong> significa <strong>Open/Closed Principle</strong> o <strong>Principio Abierto/Cerrado</strong>.
+          </div>
+          <div className="srp-description">
+            La idea clave de OCP es que las clases deben estar <strong>abiertas para extensión</strong> pero <strong>cerradas para modificación</strong>. Esto permite añadir nuevas funcionalidades sin tocar código ya probado.
+          </div>
 
-        <h2 className="srp-subtitle">Maneras de aprender OCP:</h2>
-        <div className="learning-modes">
-          {learningModes.map((mode) => (
-            <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
-              <div className="learning-icon">{mode.icon}</div>
-              <div className="learning-content">
-                <h3>{mode.title}</h3>
-                <p>{mode.description}</p>
+          <h2 className="srp-subtitle">Maneras de aprender OCP:</h2>
+          <div className="learning-modes">
+            {learningModes.map((mode) => (
+              <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
+                <div className="learning-icon">{mode.icon}</div>
+                <div className="learning-content">
+                  <h3>{mode.title}</h3>
+                  <p>{mode.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     );

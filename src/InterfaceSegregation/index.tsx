@@ -62,7 +62,7 @@ export const InterfaceSegregation = () => {
   };
 
   const handleAssign = (task: Task, action: string) => {
-    if ((task.type === "Edit" && action === "Editar") || (task.type === "Delete" && action === "Eliminar") || (task.type === "Invalid" && action === "No") ) {
+    if ((task.type === "Edit" && action === "Editar") || (task.type === "Delete" && action === "Eliminar") || (task.type === "Invalid" && action === "No")) {
       setCorrectCount(correctCount + 1);
       setMessage(
         <span>
@@ -94,25 +94,27 @@ export const InterfaceSegregation = () => {
   if (intro) {
     return (
       <div className="srp-container">
-        <h1 className="srp-title">Interface Segregation Principle (ISP)</h1>
-        <div className="srp-description">
-          <strong>ISP</strong> significa <strong>Interface Segregation Principle</strong> o <strong>Principio de Segregación de Interfaces</strong>.
-        </div>
-        <div className="srp-description">
-          Las clases no deben depender de métodos que no utilizan; cada clase implementa solo las interfaces necesarias.
-        </div>
+        <div className="cntn">
+          <h1 className="srp-title">Interface Segregation Principle (ISP)</h1>
+          <div className="srp-description">
+            <strong>ISP</strong> significa <strong>Interface Segregation Principle</strong> o <strong>Principio de Segregación de Interfaces</strong>.
+          </div>
+          <div className="srp-description">
+            Las clases no deben depender de métodos que no utilizan; cada clase implementa solo las interfaces necesarias.
+          </div>
 
-        <h2 className="srp-subtitle">Maneras de aprender ISP:</h2>
-        <div className="learning-modes">
-          {learningModes.map((mode) => (
-            <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
-              <div className="learning-icon">{mode.icon}</div>
-              <div className="learning-content">
-                <h3>{mode.title}</h3>
-                <p>{mode.description}</p>
+          <h2 className="srp-subtitle">Maneras de aprender ISP:</h2>
+          <div className="learning-modes">
+            {learningModes.map((mode) => (
+              <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
+                <div className="learning-icon">{mode.icon}</div>
+                <div className="learning-content">
+                  <h3>{mode.title}</h3>
+                  <p>{mode.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     );

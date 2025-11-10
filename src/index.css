@@ -22,8 +22,8 @@ body {
 }
 
 .srp-container {
+  width: 100%;
   background: #2c2c2c;
-  padding: 10px;
   border-radius: 16px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
@@ -36,6 +36,8 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7);
 }
+
+.cntn {padding: 20px;}
 
 .srp-title {
   text-align: center;

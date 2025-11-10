@@ -100,25 +100,27 @@ export const Denendenevlnvercion = () => {
   if (intro) {
     return (
       <div className="srp-container">
-        <h1 className="srp-title">Dependency Inversion Principle (DIP)</h1>
-        <div className="srp-description">
-          <strong>DIP</strong> significa <strong>Dependency Inversion Principle</strong> o <strong>Principio de Inversión de Dependencias</strong>.
-        </div>
-        <div className="srp-description">
-          Las clases de alto nivel no deben depender de clases de bajo nivel, sino de abstracciones. Esto permite que los detalles cambien sin afectar la lógica de alto nivel.
-        </div>
+        <div className="cntn">
+          <h1 className="srp-title">Dependency Inversion Principle (DIP)</h1>
+          <div className="srp-description">
+            <strong>DIP</strong> significa <strong>Dependency Inversion Principle</strong> o <strong>Principio de Inversión de Dependencias</strong>.
+          </div>
+          <div className="srp-description">
+            Las clases de alto nivel no deben depender de clases de bajo nivel, sino de abstracciones. Esto permite que los detalles cambien sin afectar la lógica de alto nivel.
+          </div>
 
-        <h2 className="srp-subtitle">Maneras de aprender DIP:</h2>
-        <div className="learning-modes">
-          {learningModes.map((mode) => (
-            <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
-              <div className="learning-icon">{mode.icon}</div>
-              <div className="learning-content">
-                <h3>{mode.title}</h3>
-                <p>{mode.description}</p>
+          <h2 className="srp-subtitle">Maneras de aprender DIP:</h2>
+          <div className="learning-modes">
+            {learningModes.map((mode) => (
+              <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
+                <div className="learning-icon">{mode.icon}</div>
+                <div className="learning-content">
+                  <h3>{mode.title}</h3>
+                  <p>{mode.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     );

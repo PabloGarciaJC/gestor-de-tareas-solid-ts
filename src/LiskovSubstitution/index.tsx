@@ -94,25 +94,27 @@ export const LiskovSubstitution = () => {
   if (intro) {
     return (
       <div className="srp-container">
-        <h1 className="srp-title">Liskov Substitution Principle (LSP)</h1>
-        <div className="srp-description">
-          <strong>LSP</strong> significa <strong>Liskov Substitution Principle</strong> o <strong>Principio de Sustitución de Liskov</strong>.
-        </div>
-        <div className="srp-description">
-          Los objetos de una clase derivada deben poder sustituir a los objetos de la clase base sin alterar el comportamiento correcto del programa.
-        </div>
+        <div className="cntn">
+          <h1 className="srp-title">Liskov Substitution Principle (LSP)</h1>
+          <div className="srp-description">
+            <strong>LSP</strong> significa <strong>Liskov Substitution Principle</strong> o <strong>Principio de Sustitución de Liskov</strong>.
+          </div>
+          <div className="srp-description">
+            Los objetos de una clase derivada deben poder sustituir a los objetos de la clase base sin alterar el comportamiento correcto del programa.
+          </div>
 
-        <h2 className="srp-subtitle">Maneras de aprender LSP:</h2>
-        <div className="learning-modes">
-          {learningModes.map((mode) => (
-            <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
-              <div className="learning-icon">{mode.icon}</div>
-              <div className="learning-content">
-                <h3>{mode.title}</h3>
-                <p>{mode.description}</p>
+          <h2 className="srp-subtitle">Maneras de aprender LSP:</h2>
+          <div className="learning-modes">
+            {learningModes.map((mode) => (
+              <div key={mode.key} className="learning-card" onClick={() => startGame(mode.key as "common" | "technical" | "example")}>
+                <div className="learning-icon">{mode.icon}</div>
+                <div className="learning-content">
+                  <h3>{mode.title}</h3>
+                  <p>{mode.description}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     );
