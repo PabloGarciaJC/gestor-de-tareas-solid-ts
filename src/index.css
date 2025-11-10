@@ -17,14 +17,14 @@ body {
 .srp-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 30px;
   justify-items: center;
 }
 
 .srp-container {
   background: #2c2c2c;
   width: 100%;
-  padding: 5px;
+  padding: 10px;
   border-radius: 16px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
@@ -119,4 +119,50 @@ body {
 
 .srp-delete-btn:hover {
   background: #c2185b;
+}
+
+
+
+.srp-button {cursor: pointer;}
+
+
+.task-list { 
+  display: flex; 
+  gap: 12px; 
+  flex-direction: column; 
+}
+
+/* Tarjeta más bonita */
+.task-card { 
+  padding: 14px 18px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  min-width: 200px; 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      background: #3a3a3a;
+    border: 1px solid #444;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+/* Grupo de botones */
+.button-group { 
+  margin-top: 8px; 
+  display: flex; 
+  gap: 8px; 
+  flex-wrap: wrap; 
+}
+
+/* Fin del juego */
+.end-screen { 
+  margin-top: 20px; 
+}
+
+/* Botón atrás */
+.back-button { 
+  margin-top: 20px; 
 }

@@ -3,10 +3,9 @@ import { useState } from "react";
 interface Task {
   id: number;
   title: string;
-  type: string; // tipo usado solo para la lógica
+  type: string;
 }
 
-// Tareas comunes para usuario no técnico
 const commonTasks: Task[] = [
   { id: 1, title: "Pintar la pared", type: "Paint" },
   { id: 2, title: "Limpiar el piso", type: "Clean" },
@@ -15,7 +14,6 @@ const commonTasks: Task[] = [
   { id: 5, title: "Limpiar ventanas", type: "Clean" },
 ];
 
-// Tareas técnicas para usuario técnico
 const technicalTasks: Task[] = [
   { id: 1, title: "Guardar usuario en DB", type: "UserService" },
   { id: 2, title: "Enviar correo de confirmación", type: "EmailService" },
@@ -67,28 +65,49 @@ export const SingleResponsibility = () => {
   if (intro) {
     return (
       <div className="srp-container">
-        <h1>Bienvenido al Juego SRP</h1>
-        <p>
-          Este juego te enseña el <strong>Single Responsibility Principle (SRP)</strong>.
-        </p>
-        <p>Elige tu modalidad:</p>
-        <button onClick={() => startGame("common")}>Modo Usuario Común</button>
-        <button onClick={() => startGame("technical")}>Modo Técnico</button>
+
+        <h1 className="srp-title">Single Responsibility Principle (SRP)</h1>
+
+        <div className="srp-description">
+          <strong>SRP</strong> significa <strong>Single Responsibility Principle</strong>, o
+          <strong> Principio de Responsabilidad Única</strong>.
+        </div>
+
+        <div className="srp-description">
+          Este principio forma parte de los <strong>Principios SOLID</strong> de la programación orientada a objetos.
+          Establece que <strong>cada clase, módulo o función debe encargarse de una sola responsabilidad</strong>.
+          Si un componente hace más de una cosa, se vuelve difícil de mantener, probar y modificar sin romper algo.
+        </div>
+
+        <div className="srp-description">
+          Para ayudarte a entender este concepto de forma sencilla, aquí tienes un <strong>juego interactivo</strong>.
+          Tu objetivo es <strong>asignar cada tarea a su responsable correcto</strong>.
+        </div>
+
+        <h2 className="srp-subtitle">Selecciona cómo quieres aprender:</h2>
+
+        <button className="srp-button" onClick={() => startGame("common")}>
+          Actividades Cotidianas
+        </button>
+
+        <button className="srp-button" onClick={() => startGame("technical")}>
+          Técnico
+        </button>
       </div>
     );
   }
 
-  // Determinar responsables según modalidad
+
   const responsibleLabels =
     gameMode === "common"
       ? { Paint: "Pintor", Clean: "Personal de Limpieza", Cook: "Chef" }
       : {
-          UserService: "UserService",
-          EmailService: "EmailService",
-          ReportService: "ReportService",
-          ValidationService: "ValidationService",
-          PaymentService: "PaymentService",
-        };
+        UserService: "UserService",
+        EmailService: "EmailService",
+        ReportService: "ReportService",
+        ValidationService: "ValidationService",
+        PaymentService: "PaymentService",
+      };
 
   return (
     <div className="srp-container">
@@ -97,39 +116,20 @@ export const SingleResponsibility = () => {
       <p>{message}</p>
 
       <h2>Tareas disponibles:</h2>
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+      <div className="task-list">
         {tasks.map((task) => (
-          <div
-            key={task.id}
-            style={{
-              padding: "10px 15px",
-              border: "1px solid #333",
-              borderRadius: 5,
-              cursor: "pointer",
-              minWidth: 200,
-            }}
-          >
+          <div key={task.id} className="task-card">
             <strong>{task.title}</strong>
-            <div
-              style={{
-                marginTop: 5,
-                display: "flex",
-                gap: 5,
-                flexWrap: "wrap", // <-- Grid-like layout
-              }}
-            >
+            <div className="button-group">
               {gameMode === "common" ? (
                 <>
-                  <button onClick={() => handleAssign(task, "Paint")}>Pintor</button>
-                  <button onClick={() => handleAssign(task, "Clean")}>Personal de Limpieza</button>
-                  <button onClick={() => handleAssign(task, "Cook")}>Chef</button>
+                  <button className="srp-button" onClick={() => handleAssign(task, "Paint")}>Pintor</button>
+                  <button className="srp-button" onClick={() => handleAssign(task, "Clean")}>Personal de Limpieza</button>
+                  <button className="srp-button" onClick={() => handleAssign(task, "Cook")}>Chef</button>
                 </>
               ) : (
                 Object.keys(responsibleLabels).map((key) => (
-                  <button
-                    key={key}
-                    onClick={() => handleAssign(task, key)}
-                  >
+                  <button key={key} className="srp-button" onClick={() => handleAssign(task, key)}>
                     {responsibleLabels[key as keyof typeof responsibleLabels]}
                   </button>
                 ))
@@ -140,13 +140,13 @@ export const SingleResponsibility = () => {
       </div>
 
       {tasks.length === 0 && (
-        <div style={{ marginTop: 20 }}>
+        <div className="end-screen">
           <h3>¡Juego terminado!</h3>
           <p>Puntuación final: {score}</p>
         </div>
       )}
 
-      <button style={{ marginTop: 20 }} onClick={handleBack}>
+      <button className="srp-button back-button" onClick={handleBack}>
         Atrás
       </button>
     </div>
