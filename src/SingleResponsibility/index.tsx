@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaPaintBrush, FaBroom, FaUtensils, FaDatabase, FaEnvelope, FaFilePdf, FaCheckCircle, FaMoneyBill } from "react-icons/fa";
+import { FaPaintBrush, FaBroom, FaUtensils, FaDatabase, FaEnvelope, FaFilePdf, FaCheckCircle, FaTimesCircle, FaMoneyBill } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -29,7 +29,7 @@ export const SingleResponsibility = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
-  const [message, setMessage] = useState("Selecciona el responsable correcto para cada tarea según su tipo.");
+  const [message, setMessage] = useState<React.ReactNode>("Selecciona el responsable correcto para cada tarea según su tipo.");
 
   const learningModes = [
     { key: "common", title: "Actividades Cotidianas", description: "Aprende SRP relacionando tareas comunes del día a día con sus responsables.", icon: <FaBroom size={22} /> },
@@ -64,10 +64,20 @@ export const SingleResponsibility = () => {
   const handleAssign = (task: Task, responsible: string) => {
     if (task.type === responsible) {
       setCorrectCount(correctCount + 1);
-      setMessage(`✅ Correcto! "${task.title}" fue asignada correctamente.`);
+      setMessage(
+        <span>
+          <FaCheckCircle style={{ color: "green", marginRight: "5px" }} />
+          Correcto! "{task.title}" fue asignada correctamente.
+        </span>
+      );
     } else {
       setIncorrectCount(incorrectCount + 1);
-      setMessage(`❌ Incorrecto! "${task.title}" no corresponde a este responsable.`);
+      setMessage(
+        <span>
+          <FaTimesCircle style={{ color: "red", marginRight: "5px" }} />
+          Incorrecto! "{task.title}" no corresponde a este responsable.
+        </span>
+      );
     }
     setTasks(tasks.filter((t) => t.id !== task.id));
   };
@@ -126,7 +136,6 @@ export const SingleResponsibility = () => {
     <div className="srp-container">
       <h1>Juego SRP - {gameMode === "common" ? "Usuario Común" : gameMode === "technical" ? "Técnico" : "Ejemplo Visual"}</h1>
 
-      {/* Mostrar puntuación solo si no es ejemplo */}
       {gameMode !== "example" && (
         <>
           <p><strong>Correctas:</strong> {correctCount} | <strong>Incorrectas:</strong> {incorrectCount}</p>
@@ -138,25 +147,22 @@ export const SingleResponsibility = () => {
         {tasks.map((task) => (
           <div key={task.id} className="task-card">
             <strong>{task.title}</strong>
-
             {task.type === "Example" ? (
               <div className="example-code">
-                <pre>
-                  {`// Mala práctica: clase con múltiples responsabilidades
-                  class User {
-                    saveToDB() { ... }
-                    sendEmail() { ... }
-                  }
+                <pre>{`// Mala práctica: clase con múltiples responsabilidades
+class User {
+  saveToDB() { ... }
+  sendEmail() { ... }
+}
 
-                  // Buen ejemplo: cada clase tiene una sola responsabilidad
-                  class UserService {
-                    saveToDB() { ... }
-                  }
+// Buen ejemplo: cada clase tiene una sola responsabilidad
+class UserService {
+  saveToDB() { ... }
+}
 
-                  class EmailService {
-                    sendEmail() { ... }
-                  }`}
-                </pre>
+class EmailService {
+  sendEmail() { ... }
+}`}</pre>
                 <p>Cada clase cumple una sola responsabilidad, facilitando mantenimiento y pruebas.</p>
               </div>
             ) : (
